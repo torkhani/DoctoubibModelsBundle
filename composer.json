@@ -10,10 +10,9 @@
     "doctoubib models bundle"
   ],
   "license" : [
-    "MIT"
+    "proprietary"
   ],
-  "require" : {
-  },
+  "minimum-stability": "dev",
   "autoload" : {
     "psr-0" : {
       "Doctoubib\\ModelsBundle" : ""
