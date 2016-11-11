@@ -1,0 +1,30 @@
+{
+  "name" : "torkhani/DoctoubibModelsBundle",
+  "description" : "Doctoubib models bundle",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "Moetaz Torkhani",
+    "email" : "torkhani.moetez@gmail.com"
+  }],
+  "keywords" : [
+    "doctoubib models bundle"
+  ],
+  "license" : [
+    "MIT"
+  ],
+  "require" : {
+  },
+  "autoload" : {
+    "psr-0" : {
+      "Doctoubib\\ModelsBundle" : ""
+    }
+  },
+  "target-dir" : "Doctoubib/ModelsBundle",
+  "repositories" : [{
+  }],
+  "extra" : {
+    "branch-alias" : {
+      "dev-master" : "master"
+    }
+  }
+}
