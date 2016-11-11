@@ -20,11 +20,11 @@
     }
   },
   "target-dir" : "Doctoubib/ModelsBundle",
-  "repositories" : [{
-  }],
-  "extra" : {
-    "branch-alias" : {
-      "dev-master" : "master"
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@github.com:torkhani/DoctoubibModelsBundle.git"
     }
-  }
+  ],
+
 }
