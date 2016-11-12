@@ -107,10 +107,10 @@ class Doctor
     private $zipcode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\City")
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Region")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $city;
+    private $region;
 
     /**
      * @var string
@@ -307,27 +307,27 @@ class Doctor
     }
 
     /**
-     * Set city
+     * Set region
      *
-     * @param string $city
+     * @param string $region
      *
      * @return Doctor
      */
-    public function setCity($city)
+    public function setRegion($region)
     {
-        $this->city = $city;
+        $this->region = $region;
 
         return $this;
     }
 
     /**
-     * Get city
+     * Get region
      *
      * @return string
      */
-    public function getCity()
+    public function getRegion()
     {
-        return $this->city;
+        return $this->region;
     }
 
     /**
