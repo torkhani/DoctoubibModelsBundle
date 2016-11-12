@@ -58,9 +58,8 @@ class Doctor
     private $speciality;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Insurance")
-     * @ORM\JoinColumn(nullable=false)
+     * @var integer
+     * @ORM\Column(name="insurance", type="boolean", options={"default":true})
      */
     private $insurance;
 
