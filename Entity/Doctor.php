@@ -88,7 +88,7 @@ class Doctor
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -102,7 +102,7 @@ class Doctor
     /**
      * @var string
      *
-     * @ORM\Column(name="zipcode", type="string", length=5)
+     * @ORM\Column(name="zipcode", type="string", length=4, nullable=true)
      */
     private $zipcode;
 
@@ -115,14 +115,14 @@ class Doctor
     /**
      * @var string
      *
-     * @ORM\Column(name="phone_number", type="string", length=12)
+     * @ORM\Column(name="phone_number", type="string", length=12, nullable=true)
      */
     private $phoneNumber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="office_phone_number", type="string", length=12)
+     * @ORM\Column(name="office_phone_number", type="string", length=12, nullable=true)
      */
     private $officePhoneNumber;
 
