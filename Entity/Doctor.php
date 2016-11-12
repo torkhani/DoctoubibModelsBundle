@@ -2,6 +2,7 @@
 
 namespace Doctoubib\ModelsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,12 +39,18 @@ class Doctor
     /**
      * @var string
      *
+     * @ORM\Column(name="civility", type="string", length=6)
+     */
+    private $civility;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
-     * @var string
      *
      * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Speciality")
      * @ORM\JoinColumn(nullable=false)
@@ -51,7 +58,6 @@ class Doctor
     private $speciality;
 
     /**
-     * @var string
      *
      * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Insurance")
      * @ORM\JoinColumn(nullable=false)
@@ -61,9 +67,23 @@ class Doctor
     /**
      * @var string
      *
-     * @ORM\Column(name="formation", type="text")
+     * @ORM\Column(name="formation", type="text", nullable=true)
      */
     private $formation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hospital_carrer", type="text", nullable=true)
+     */
+    private $hospitalCareer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="skills", type="text", nullable=true)
+     */
+    private $skills;
     
     /**
      * @var string
@@ -87,9 +107,8 @@ class Doctor
     private $zipcode;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="city", type="string", length=20)
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\City")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $city;
 
@@ -106,6 +125,32 @@ class Doctor
      * @ORM\Column(name="office_phone_number", type="string", length=12)
      */
     private $officePhoneNumber;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Doctoubib\ModelsBundle\Entity\DoctorConsultation", mappedBy="doctor")
+     *
+     */
+    private $consultations;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="consultation_price_min", type="integer")
+     */
+    private $consultationPriceMin;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="consultation_price_max", type="integer", nullable=true)
+     */
+    private $consultationPriceMax;
+
+
+    public function __construct()
+    {
+        $this->consultations = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -380,6 +425,115 @@ class Doctor
         $this->officePhoneNumber = $officePhoneNumber;
         return $this;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getCivility()
+    {
+        return $this->civility;
+    }
+
+    /**
+     * @param string $civility
+     * @return Doctor
+     */
+    public function setCivility($civility)
+    {
+        $this->civility = $civility;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConsultations()
+    {
+        return $this->consultations;
+    }
+
+    public function addConsultation(DoctorConsultation $consultations)
+    {
+        $this->consultations[] = $consultations;
+
+        return $this;
+    }
+
+    public function removeConsultation(DoctorConsultation $consultations)
+    {
+        $this->consultations->removeElement($consultations);
+    }
+
+    /**
+     * @return int
+     */
+    public function getConsultationPriceMin()
+    {
+        return $this->consultationPriceMin;
+    }
+
+    /**
+     * @param int $consultationPriceMin
+     * @return Doctor
+     */
+    public function setConsultationPriceMin($consultationPriceMin)
+    {
+        $this->consultationPriceMin = $consultationPriceMin;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getConsultationPriceMax()
+    {
+        return $this->consultationPriceMax;
+    }
+
+    /**
+     * @param int $consultationPriceMax
+     * @return Doctor
+     */
+    public function setConsultationPriceMax($consultationPriceMax)
+    {
+        $this->consultationPriceMax = $consultationPriceMax;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHospitalCareer()
+    {
+        return $this->hospitalCareer;
+    }
+
+    /**
+     * @param string $hospitalCareer
+     * @return Doctor
+     */
+    public function setHospitalCareer($hospitalCareer)
+    {
+        $this->hospitalCareer = $hospitalCareer;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSkills()
+    {
+        return $this->skills;
+    }
+
+    /**
+     * @param string $skills
+     * @return Doctor
+     */
+    public function setSkills($skills)
+    {
+        $this->skills = $skills;
+        return $this;
+    }
 }
 
