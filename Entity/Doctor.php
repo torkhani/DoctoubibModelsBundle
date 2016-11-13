@@ -3,6 +3,7 @@
 namespace Doctoubib\ModelsBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,12 @@ class Doctor
      * @ORM\Column(name="lastname", type="string", length=50)
      */
     private $lastname;
+
+    /**
+     * @Gedmo\Slug(fields={"firstname", "lastname"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
 
     /**
      * @var string
@@ -532,6 +539,24 @@ class Doctor
     public function setSkills($skills)
     {
         $this->skills = $skills;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     * @return Doctor
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
         return $this;
     }
 }
