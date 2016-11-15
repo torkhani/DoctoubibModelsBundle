@@ -20,13 +20,19 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
             $qb = $this->createQueryBuilder('d')
                 ->join('d.speciality', 's')
                 ->where('s.slug = :speciality')
-                ->setParameters(array('speciality' => $filters['speciality']));
+                ->setParameter('speciality', $filters['speciality']);
 
             if (!empty($filters['region'])) {
                 $qb->join('d.region', 'r')
                     ->andWhere('r.slug = :region')
                     ->setParameter('region', $filters['region']);
             }
+
+            return $qb->getQuery()->getResult();
+        } elseif (!empty($filters['lastanme_first_letter'])) {
+            $qb = $this->createQueryBuilder('d')
+                ->where('d.lastname LIKE :lastanme_first_letter')
+                ->setParameter('lastanme_first_letter', $filters['lastanme_first_letter'].'%');
 
             return $qb->getQuery()->getResult();
         }
