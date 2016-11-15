@@ -10,4 +10,25 @@ namespace Doctoubib\ModelsBundle\Repository;
  */
 class DoctorRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findByCriteria($filters)
+    {
+        if (!empty($filters['slug'])) {
+           return $this->findOneBy(['slug' => $filters['slug']]);
+        } elseif (!empty($filters['speciality'])) {
+
+            $qb = $this->createQueryBuilder('d')
+                ->join('d.speciality', 's')
+                ->where('s.slug = :speciality')
+                ->setParameters(array('speciality' => $filters['speciality']));
+
+            if (!empty($filters['region'])) {
+                $qb->join('d.region', 'r')
+                    ->andWhere('r.slug = :region')
+                    ->setParameter('region', $filters['region']);
+            }
+
+            return $qb->getQuery()->getResult();
+        }
+     }
 }
