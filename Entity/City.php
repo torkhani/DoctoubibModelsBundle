@@ -39,7 +39,7 @@ class City
     /**
      * @var int
      *
-     * @ORM\Column(name="zipcode", type="integer")
+     * @ORM\Column(name="zipcode", type="integer", nullable=true)
      */
     private $zipcode;
 
