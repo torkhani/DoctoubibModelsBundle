@@ -1,4 +1,13 @@
 services:
-#    doctoubib_models.example:
-#        class: Doctoubib\ModelsBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    doctoubib_models.doctors:
+        class: Doctoubib\ModelsBundle\Entity\Doctor
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    doctoubib_models.contactmessage.repository:
+        class: Doctoubib\ModelsBundle\Repository\ContactMessageRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments: [Doctoubib\ModelsBundle\Entity\ContactMessage]
+
+    doctoubib_models.contactmessage:
+        class: Doctoubib\ModelsBundle\Service\ContactMessageService
+        arguments: ["@doctoubib_models.contactmessage.repository"]
