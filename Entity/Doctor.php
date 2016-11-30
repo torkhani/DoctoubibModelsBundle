@@ -113,15 +113,30 @@ class Doctor
 
     /**
      * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Region")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $region;
 
     /**
      * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\City")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $city;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="string", length=50, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="latitude", type="string", length=50, nullable=true)
+     */
+    private $latitude;
+
 
     /**
      * @var string
@@ -593,6 +608,42 @@ class Doctor
     public function __toString()
     {
         return $this->getFirstname() . $this->getLastname();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param mixed $longitude
+     * @return Doctor
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param mixed $latitude
+     * @return Doctor
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+        return $this;
     }
 }
 
