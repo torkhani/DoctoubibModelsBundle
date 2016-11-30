@@ -59,14 +59,13 @@ class Doctor
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Speciality")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToMany(targetEntity="Doctoubib\ModelsBundle\Entity\Speciality", cascade={"persist"})
      */
-    private $speciality;
+    private $specialities;
 
     /**
      * @var integer
-     * @ORM\Column(name="insurance", type="boolean", options={"default":true})
+     * @ORM\Column(name="insurance", type="boolean", options={"default":true}, nullable=true)
      */
     private $insurance;
 
@@ -119,6 +118,12 @@ class Doctor
     private $region;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\City")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $city;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="phone_number", type="string", length=12, nullable=true)
@@ -141,7 +146,7 @@ class Doctor
     /**
      * @var integer
      *
-     * @ORM\Column(name="consultation_price_min", type="integer")
+     * @ORM\Column(name="consultation_price_min", type="integer", nullable=true)
      */
     private $consultationPriceMin;
 
@@ -156,6 +161,7 @@ class Doctor
     public function __construct()
     {
         $this->consultations = new ArrayCollection();
+        $this->specialities = new ArrayCollection();
     }
 
     /**
@@ -313,27 +319,45 @@ class Doctor
     }
 
     /**
-     * Set region
+     * Set city
      *
-     * @param string $region
+     * @param string $city
      *
      * @return Doctor
      */
-    public function setRegion($region)
+    public function setCity($city)
     {
-        $this->region = $region;
+        $this->city = $city;
 
         return $this;
     }
 
     /**
-     * Get region
+     * Get city
      *
      * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return mixed
      */
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * @param mixed $region
+     * @return Doctor
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+        return $this;
     }
 
     /**
@@ -363,19 +387,25 @@ class Doctor
     /**
      * @return string
      */
-    public function getSpeciality()
+    public function getSpecialities()
     {
-        return $this->speciality;
+        return $this->specialities;
     }
 
     /**
-     * @param string $speciality
-     * @return Doctor
+     * @param Speciality $speciality
+     * @return $this
      */
-    public function setSpeciality($speciality)
+    public function addSpeciality(Speciality $speciality)
     {
-        $this->speciality = $speciality;
+        $this->specialities[] = $speciality;
+
         return $this;
+    }
+
+    public function removeSpeciality(Speciality $speciality)
+    {
+        $this->specialities->removeElement($speciality);
     }
 
     /**
@@ -558,6 +588,11 @@ class Doctor
     {
         $this->slug = $slug;
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getFirstname() . $this->getLastname();
     }
 }
 
