@@ -34,6 +34,8 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('lastanme_first_letter', $filters['lastanme_first_letter'].'%');
 
             return $qb->getQuery()->getResult();
+        } else {
+            return $this->findAll();
         }
      }
 }
