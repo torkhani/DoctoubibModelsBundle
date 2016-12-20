@@ -10,4 +10,11 @@ namespace Doctoubib\ModelsBundle\Repository;
  */
 class RegionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getRegions()
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.name, r.slug');
+
+        return $qb->getQuery()->execute();
+    }
 }

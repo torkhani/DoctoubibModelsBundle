@@ -16,14 +16,13 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
         if (!empty($filters['slug'])) {
            return $this->findOneBy(['slug' => $filters['slug']]);
         } elseif (!empty($filters['speciality'])) {
-
             $qb = $this->createQueryBuilder('d')
-                ->join('d.speciality', 's')
+                ->leftJoin('d.specialities', 's')
                 ->where('s.slug = :speciality')
                 ->setParameter('speciality', $filters['speciality']);
 
             if (!empty($filters['region'])) {
-                $qb->join('d.region', 'r')
+                $qb->leftJoin('d.region', 'r')
                     ->andWhere('r.slug = :region')
                     ->setParameter('region', $filters['region']);
             }
@@ -35,6 +34,8 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('lastanme_first_letter', $filters['lastanme_first_letter'].'%');
 
             return $qb->getQuery()->getResult();
+        } else {
+            return $this->findAll();
         }
      }
 }
