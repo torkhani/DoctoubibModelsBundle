@@ -172,6 +172,22 @@ class Doctor
      */
     private $consultationPriceMax;
 
+    /**
+     * @var \DateTime $createdAt
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime $updatedAt
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
+
 
     public function __construct()
     {
@@ -605,11 +621,6 @@ class Doctor
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->getFirstname() . $this->getLastname();
-    }
-
     /**
      * @return mixed
      */
@@ -645,5 +656,47 @@ class Doctor
         $this->latitude = $latitude;
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     * @return Doctor
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     * @return Doctor
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getFirstname() . $this->getLastname();
+    }
+
 }
 
