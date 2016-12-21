@@ -11,3 +11,12 @@ services:
     doctoubib_models.contactmessage:
         class: Doctoubib\ModelsBundle\Service\ContactMessageService
         arguments: ["@doctoubib_models.contactmessage.repository"]
+
+    doctoubib_models.sponsorship.repository:
+        class: Doctoubib\ModelsBundle\Repository\SponsorshipRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments: [Doctoubib\ModelsBundle\Entity\Sponsorship]
+
+    doctoubib_models.sponsorship:
+        class: Doctoubib\ModelsBundle\Service\SponsorshipService
+        arguments: ["@doctoubib_models.sponsorship.repository"]
