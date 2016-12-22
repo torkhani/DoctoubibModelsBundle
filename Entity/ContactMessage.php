@@ -24,16 +24,9 @@ class ContactMessage
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255)
      */
-    private $firstname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastname", type="string", length=255)
-     */
-    private $lastname;
+    private $username;
 
     /**
      * @var string
@@ -41,13 +34,6 @@ class ContactMessage
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
-     */
-    private $phone;
 
     /**
      * @var string
@@ -87,51 +73,27 @@ class ContactMessage
     }
 
     /**
-     * Set firstname
+     * Set username
      *
-     * @param string $firstname
+     * @param string username
      *
      * @return ContactMessage
      */
-    public function setFirstname($firstname)
+    public function setUsername($username)
     {
-        $this->firstname = $firstname;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get firstname
+     * Get username
      *
      * @return string
      */
-    public function getFirstname()
+    public function getUsername()
     {
-        return $this->firstname;
-    }
-
-    /**
-     * Set lastname
-     *
-     * @param string $lastname
-     *
-     * @return ContactMessage
-     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    /**
-     * Get lastname
-     *
-     * @return string
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
+        return $this->username;
     }
 
     /**
@@ -156,30 +118,6 @@ class ContactMessage
     public function getEmail()
     {
         return $this->email;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param string $phone
-     *
-     * @return ContactMessage
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
     }
 
     /**

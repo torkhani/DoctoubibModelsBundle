@@ -20,10 +20,8 @@ class ContactMessageService
     public function save($params)
     {
         $contactMessage = new ContactMessage();
-        $contactMessage->setFirstname($params['firstname']);
-        $contactMessage->setLastname($params['lastname']);
+        $contactMessage->setUsername($params['username']);
         $contactMessage->setEmail($params['email']);
-        $contactMessage->setPhone($params['phone']);
         $contactMessage->setSubject($params['subject']);
         $contactMessage->setMessage($params['message']);
 
