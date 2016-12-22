@@ -22,10 +22,9 @@ class SponsorshipService
         $sponsorship = new Sponsorship();
         $sponsorship->setUsername($params['username']);
         $sponsorship->setEmail($params['email']);
-        $sponsorship->setDoctorName($params['doctor_name']);
+        $sponsorship->setDoctorName($params['doctorName']);
         $sponsorship->setRegion($params['region']);
-
-
+        
         $this->sponsorshipRepository->save($sponsorship);
     }
 }
