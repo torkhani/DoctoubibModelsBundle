@@ -188,6 +188,25 @@ class Doctor
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="doctor")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enabled", type="boolean", options={"default" : 0})
+     */
+    private $enabled;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="show", type="boolean", options={"default" : 0})
+     */
+    private $show;
 
     public function __construct()
     {
@@ -693,9 +712,64 @@ class Doctor
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return Doctor
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    
     public function __toString()
     {
         return $this->getFirstname() . $this->getLastname();
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param string $enabled
+     * @return Doctor
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShow()
+    {
+        return $this->show;
+    }
+
+    /**
+     * @param string $show
+     * @return Doctor
+     */
+    public function setShow($show)
+    {
+        $this->show = $show;
+        return $this;
     }
 
 }

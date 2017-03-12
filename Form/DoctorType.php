@@ -13,7 +13,9 @@ class DoctorType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstname')
+        $builder
+            ->add('civility')
+            ->add('firstname')
             ->add('lastname')
             ->add('email')
             ->add('formation')
@@ -23,7 +25,7 @@ class DoctorType extends AbstractType
             ->add('city')
             ->add('phoneNumber')
             ->add('officePhoneNumber')
-            ->add('speciality')
+            ->add('specialities')
             ->add('insurance')        ;
     }
     
