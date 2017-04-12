@@ -72,7 +72,7 @@ class Experience
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\DoctorInfo", inversedBy="experiences", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Doctor", inversedBy="experiences", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $doctor;

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Doctor
  *
- * @ORM\Table(name="doctor")
+ * @ORM\Table(name="doctor_info")
  * @ORM\Entity(repositoryClass="Doctoubib\ModelsBundle\Repository\DoctorRepository")
  */
 class Doctor
@@ -46,7 +46,7 @@ class Doctor
     /**
      * @var string
      *
-     * @ORM\Column(name="civility", type="string", length=6)
+     * @ORM\Column(name="civility", type="string", length=6, nullable=true)
      */
     private $civility;
 
@@ -68,28 +68,7 @@ class Doctor
      * @ORM\Column(name="insurance", type="boolean", options={"default":true}, nullable=true)
      */
     private $insurance;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="formation", type="text", nullable=true)
-     */
-    private $formation;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="hospital_carrer", type="text", nullable=true)
-     */
-    private $hospitalCareer;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="skills", type="text", nullable=true)
-     */
-    private $skills;
-
+    
     /**
      * @var string
      *
@@ -100,77 +79,15 @@ class Doctor
     /**
      * @var string
      *
-     * @ORM\Column(name="adress", type="text")
-     */
-    private $adress;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="zipcode", type="string", length=4, nullable=true)
-     */
-    private $zipcode;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Region")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $region;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\City")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $city;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="longitude", type="string", length=50, nullable=true)
-     */
-    private $longitude;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="latitude", type="string", length=50, nullable=true)
-     */
-    private $latitude;
-
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="phone_number", type="string", length=12, nullable=true)
      */
     private $phoneNumber;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="office_phone_number", type="string", length=12, nullable=true)
-     */
-    private $officePhoneNumber;
 
     /**
      * @ORM\OneToMany(targetEntity="Doctoubib\ModelsBundle\Entity\DoctorConsultation", mappedBy="doctor")
      *
      */
     private $consultations;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="consultation_price_min", type="integer", nullable=true)
-     */
-    private $consultationPriceMin;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="consultation_price_max", type="integer", nullable=true)
-     */
-    private $consultationPriceMax;
 
     /**
      * @var \DateTime $createdAt
@@ -188,11 +105,67 @@ class Doctor
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToOne(targetEntity="User", cascade={"persist"}, inversedBy="doctor")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enabled", type="boolean", options={"default" : 0})
+     */
+    private $enabled;
+
+    /**
+     * @var Boolean
+     *
+     * @ORM\Column(name="is_visible", type="boolean", options={"default" : 0})
+     */
+    private $isVisible;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Doctoubib\ModelsBundle\Entity\Experience", mappedBy="doctor")
+     */
+    private $experiences;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Doctoubib\ModelsBundle\Entity\Formation", mappedBy="doctor")
+     */
+    private $formations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Doctoubib\ModelsBundle\Entity\Publication", mappedBy="doctor")
+     */
+    private $publications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Doctoubib\ModelsBundle\Entity\Association", mappedBy="doctor", cascade={"persist"})
+     */
+    private $associations;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Doctoubib\ModelsBundle\Entity\Language")
+     */
+    private $languages;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Doctoubib\ModelsBundle\Entity\Office", mappedBy="doctor", cascade={"persist"})
+     */
+    private $offices;
 
     public function __construct()
     {
         $this->consultations = new ArrayCollection();
         $this->specialities = new ArrayCollection();
+        $this->experiences = new ArrayCollection();
+        $this->formations = new ArrayCollection();
+        $this->publications = new ArrayCollection();
+        $this->associations = new ArrayCollection();
+        $this->languages = new ArrayCollection();
+        $this->offices = new ArrayCollection();
     }
 
     /**
@@ -203,6 +176,13 @@ class Doctor
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -302,96 +282,6 @@ class Doctor
     }
 
     /**
-     * Set adress
-     *
-     * @param string $adress
-     *
-     * @return Doctor
-     */
-    public function setAdress($adress)
-    {
-        $this->adress = $adress;
-
-        return $this;
-    }
-
-    /**
-     * Get adress
-     *
-     * @return string
-     */
-    public function getAdress()
-    {
-        return $this->adress;
-    }
-
-    /**
-     * Set zipcode
-     *
-     * @param string $zipcode
-     *
-     * @return Doctor
-     */
-    public function setZipcode($zipcode)
-    {
-        $this->zipcode = $zipcode;
-
-        return $this;
-    }
-
-    /**
-     * Get zipcode
-     *
-     * @return string
-     */
-    public function getZipcode()
-    {
-        return $this->zipcode;
-    }
-
-    /**
-     * Set city
-     *
-     * @param string $city
-     *
-     * @return Doctor
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return string
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRegion()
-    {
-        return $this->region;
-    }
-
-    /**
-     * @param mixed $region
-     * @return Doctor
-     */
-    public function setRegion($region)
-    {
-        $this->region = $region;
-        return $this;
-    }
-
-    /**
      * Set phoneNumber
      *
      * @param string $phoneNumber
@@ -478,24 +368,6 @@ class Doctor
     /**
      * @return string
      */
-    public function getOfficePhoneNumber()
-    {
-        return $this->officePhoneNumber;
-    }
-
-    /**
-     * @param string $officePhoneNumber
-     * @return Doctor
-     */
-    public function setOfficePhoneNumber($officePhoneNumber)
-    {
-        $this->officePhoneNumber = $officePhoneNumber;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getCivility()
     {
         return $this->civility;
@@ -532,78 +404,6 @@ class Doctor
     }
 
     /**
-     * @return int
-     */
-    public function getConsultationPriceMin()
-    {
-        return $this->consultationPriceMin;
-    }
-
-    /**
-     * @param int $consultationPriceMin
-     * @return Doctor
-     */
-    public function setConsultationPriceMin($consultationPriceMin)
-    {
-        $this->consultationPriceMin = $consultationPriceMin;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getConsultationPriceMax()
-    {
-        return $this->consultationPriceMax;
-    }
-
-    /**
-     * @param int $consultationPriceMax
-     * @return Doctor
-     */
-    public function setConsultationPriceMax($consultationPriceMax)
-    {
-        $this->consultationPriceMax = $consultationPriceMax;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHospitalCareer()
-    {
-        return $this->hospitalCareer;
-    }
-
-    /**
-     * @param string $hospitalCareer
-     * @return Doctor
-     */
-    public function setHospitalCareer($hospitalCareer)
-    {
-        $this->hospitalCareer = $hospitalCareer;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSkills()
-    {
-        return $this->skills;
-    }
-
-    /**
-     * @param string $skills
-     * @return Doctor
-     */
-    public function setSkills($skills)
-    {
-        $this->skills = $skills;
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getSlug()
@@ -618,42 +418,6 @@ class Doctor
     public function setSlug($slug)
     {
         $this->slug = $slug;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * @param mixed $longitude
-     * @return Doctor
-     */
-    public function setLongitude($longitude)
-    {
-        $this->longitude = $longitude;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * @param mixed $latitude
-     * @return Doctor
-     */
-    public function setLatitude($latitude)
-    {
-        $this->latitude = $latitude;
         return $this;
     }
 
@@ -693,9 +457,169 @@ class Doctor
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return Doctor
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    
     public function __toString()
     {
         return $this->getFirstname() . $this->getLastname();
     }
 
+    /**
+     * @return string
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param string $enabled
+     * @return Doctor
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @return Bool
+     */
+    public function getIsVisible()
+    {
+        return $this->isVisible;
+    }
+
+    /**
+     * @param Bool $isVisible
+     * @return Doctor
+     */
+    public function setIsVisible($isVisible)
+    {
+        $this->isVisible = $isVisible;
+        return $this;
+    }
+
+    public function addExperience(Experience $experience)
+    {
+        $experience->setDoctor($this);
+        $this->experiences[] = $experience;
+
+        return $this;
+    }
+
+    public function removeExperience(Experience $experience)
+    {
+        $this->experiences->removeElement($experience);
+    }
+
+    public function getExperiences()
+    {
+        return $this->experiences;
+    }
+
+    public function addFormation(Formation $formation)
+    {
+        $formation->setDoctor($this);
+        $this->formations[] = $formation;
+
+        return $this;
+    }
+
+    public function removeFormation(Formation $formation)
+    {
+        $this->formation->removeElement($formation);
+    }
+
+    public function getFormations()
+    {
+        return $this->formations;
+    }
+
+    public function addAssociation(Association $association)
+    {
+
+        $this->associations[] = $association;
+        $association->setDoctor($this);
+        return $this;
+    }
+
+    public function removeAssociation(Association $association)
+    {
+        $this->associations->removeElement($association);
+    }
+
+    public function getAssociations()
+    {
+        return $this->associations;
+    }
+
+    public function addPublication(Publication $publication)
+    {
+        $publication->setDoctor($this);
+        $this->publications[] = $publication;
+
+        return $this;
+    }
+
+    public function removePublication(Publication $publication)
+    {
+        $this->publications->removeElement($publication);
+    }
+
+    public function getPublications()
+    {
+        return $this->publications;
+    }
+
+    public function addLanguage(Language $language)
+    {
+        $this->languages[] = $language;
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language)
+    {
+        $this->languages->removeElement($language);
+    }
+
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    public function addOffice(Office $office)
+    {
+        $this->offices[] = $office;
+
+        return $this;
+    }
+
+    public function removeOffice(Office $office)
+    {
+        $this->offices->removeElement($office);
+    }
+
+    public function getOffices()
+    {
+        return $this->offices;
+    }
 }

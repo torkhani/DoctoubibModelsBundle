@@ -148,7 +148,7 @@ class Office
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\DoctorInfo", inversedBy="offices")
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Doctor", inversedBy="offices")
      * @ORM\JoinColumn(nullable=false)
      */
     private $doctor;
