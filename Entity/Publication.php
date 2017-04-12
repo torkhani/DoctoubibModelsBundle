@@ -42,6 +42,12 @@ class Publication
      */
     private $description;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Doctor", inversedBy="publications", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $doctor;
 
     /**
      * Get id
@@ -123,6 +129,29 @@ class Publication
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDoctor()
+    {
+        return $this->doctor;
+    }
+
+    /**
+     * @param mixed $doctor
+     * @return Publication
+     */
+    public function setDoctor($doctor)
+    {
+        $this->doctor = $doctor;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }
 

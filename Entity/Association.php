@@ -63,6 +63,12 @@ class Association
      */
     private $dateTo;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Doctor", inversedBy="associations", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $doctor;
 
     /**
      * Get id
@@ -216,6 +222,29 @@ class Association
     public function getDateTo()
     {
         return $this->dateTo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDoctor()
+    {
+        return $this->doctor;
+    }
+
+    /**
+     * @param mixed $doctor
+     * @return Association
+     */
+    public function setDoctor($doctor)
+    {
+        $this->doctor = $doctor;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }
 

@@ -38,9 +38,17 @@ class Photo
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=10)
+     * @ORM\Column(name="uuid", type="string", length=255)
      */
-    private $type;
+    private $uuid;
+
+    /**
+     * @var Office
+     *
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Office")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $office;
 
 
     /**
@@ -102,27 +110,74 @@ class Photo
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     *
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string $uuid
      * @return Photo
      */
-    public function setType($type)
+    public function setUuid($uuid)
     {
-        $this->type = $type;
-
+        $this->uuid = $uuid;
         return $this;
     }
 
     /**
-     * Get type
-     *
+     * @return Office
+     */
+    public function getOffice()
+    {
+        return $this->office;
+    }
+
+    /**
+     * @param Office $office
+     * @return Photo
+     */
+    public function setOffice($office)
+    {
+        $this->office = $office;
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir() . '/' . $this->path;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir() . '/' . $this->path;
+    }
+
+    /**
      * @return string
      */
-    public function getType()
+    public function getUploadRootDir()
     {
-        return $this->type;
+        return __DIR__.'/../../../../../../web/' . $this->getUploadDir();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUploadDir()
+    {
+        return 'uploads/office/' . $this->getOffice()->getId();
     }
 }
-

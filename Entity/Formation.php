@@ -49,6 +49,12 @@ class Formation
      */
     private $description;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Doctor", inversedBy="formations", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $doctor;
 
     /**
      * Get id
@@ -154,6 +160,29 @@ class Formation
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDoctor()
+    {
+        return $this->doctor;
+    }
+
+    /**
+     * @param mixed $doctor
+     * @return Formation
+     */
+    public function setDoctor($doctor)
+    {
+        $this->doctor = $doctor;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }
 

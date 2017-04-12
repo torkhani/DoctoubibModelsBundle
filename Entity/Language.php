@@ -24,9 +24,9 @@ class Language
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=15)
+     * @ORM\Column(name="name", type="string", length=15)
      */
-    private $title;
+    private $name;
 
     /**
      * @var string
@@ -35,6 +35,12 @@ class Language
      */
     private $code;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", length=10)
+     */
+    private $icon;
 
     /**
      * Get id
@@ -92,6 +98,47 @@ class Language
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Language
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     * @return Language
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+        return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 }
 

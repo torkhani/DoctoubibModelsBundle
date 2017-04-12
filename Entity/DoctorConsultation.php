@@ -29,18 +29,28 @@ class DoctorConsultation
     private $name;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="price", type="integer")
+     * @var \DateTime
+     * @ORM\Column(name="slot_duration", type="integer", nullable=false)
      */
-    private $price;
+    private $slotDuration;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="comment", type="string", length=255)
+     * @var \DateTime
+     * @ORM\Column(name="booking_delay_before", type="integer", nullable=false, options={"unsigned":true, "default":2})
      */
-    private $comment;
+    private $bookingDelayBefore;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="booking_delay_until", type="integer", nullable=false, options={"unsigned":true, "default":2})
+     */
+    private $bookingDelayUntil;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="online_booking", type="boolean", options={"default":1})
+     */
+    private $onlineBooking;
 
     /**
      * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Doctor", inversedBy="consultations")
@@ -84,54 +94,6 @@ class DoctorConsultation
     }
 
     /**
-     * Set price
-     *
-     * @param integer $price
-     *
-     * @return DoctorFees
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return int
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set comment
-     *
-     * @param string $comment
-     *
-     * @return DoctorFees
-     */
-    public function setComment($comment)
-    {
-        $this->comment = $comment;
-
-        return $this;
-    }
-
-    /**
-     * Get comment
-     *
-     * @return string
-     */
-    public function getComment()
-    {
-        return $this->comment;
-    }
-
-    /**
      * Set doctor
      *
      * @param string $doctor
@@ -153,6 +115,78 @@ class DoctorConsultation
     public function getDoctor()
     {
         return $this->doctor;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBookingDelayBefore()
+    {
+        return $this->bookingDelayBefore;
+    }
+
+    /**
+     * @param \DateTime $bookingDelayBefore
+     * @return DoctorConsultation
+     */
+    public function setBookingDelayBefore($bookingDelayBefore)
+    {
+        $this->bookingDelayBefore = $bookingDelayBefore;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBookingDelayUntil()
+    {
+        return $this->bookingDelayUntil;
+    }
+
+    /**
+     * @param \DateTime $bookingDelayUntil
+     * @return DoctorConsultation
+     */
+    public function setBookingDelayUntil($bookingDelayUntil)
+    {
+        $this->bookingDelayUntil = $bookingDelayUntil;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isOnlineBooking()
+    {
+        return $this->onlineBooking;
+    }
+
+    /**
+     * @param boolean $onlineBooking
+     * @return DoctorConsultation
+     */
+    public function setOnlineBooking($onlineBooking)
+    {
+        $this->onlineBooking = $onlineBooking;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getSlotDuration()
+    {
+        return $this->slotDuration;
+    }
+
+    /**
+     * @param \DateTime $slotDuration
+     * @return DoctorConsultation
+     */
+    public function setSlotDuration($slotDuration)
+    {
+        $this->slotDuration = $slotDuration;
+        return $this;
     }
 }
 

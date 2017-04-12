@@ -35,6 +35,12 @@ class Parking
      */
     private $comment;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Office")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $office;
 
     /**
      * Get id
@@ -92,6 +98,24 @@ class Parking
     public function getComment()
     {
         return $this->comment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOffice()
+    {
+        return $this->office;
+    }
+
+    /**
+     * @param mixed $office
+     * @return Parking
+     */
+    public function setOffice($office)
+    {
+        $this->office = $office;
+        return $this;
     }
 }
 

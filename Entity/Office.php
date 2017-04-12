@@ -2,6 +2,7 @@
 
 namespace Doctoubib\ModelsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,73 +39,126 @@ class Office
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=10)
+     * @ORM\Column(name="phone", type="string", length=12, nullable=true)
      */
     private $phone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="adress", type="string", length=255)
+     * @ORM\Column(name="phone_second", type="string", length=12, nullable=true)
      */
-    private $adress;
+    private $phoneSecond;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="floor", type="string", length=20)
+     * @ORM\Column(name="fax_number", type="string", length=12, nullable=true)
+     */
+    private $fax;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="floor", type="string", length=20, nullable=true)
      */
     private $floor;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="intercom", type="string", length=50)
+     * @ORM\Column(name="intercom", type="string", length=50, nullable=true)
      */
     private $intercom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="digicode", type="string", length=20)
+     * @ORM\Column(name="digicode", type="string", length=20, nullable=true)
      */
     private $digicode;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="elevator", type="boolean")
+     * @ORM\Column(name="elevator", type="boolean", options={"default":false})
      */
     private $elevator;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="handicap_access", type="boolean")
+     * @ORM\Column(name="handicap_access", type="boolean", options={"default":false})
      */
     private $handicapAccess;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="payment_means", type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="Doctoubib\ModelsBundle\Entity\PaymentMean", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $paymentMeans;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="opening_hours", type="text")
+     * @ORM\Column(name="opening_hours", type="text", nullable=true)
      */
     private $openingHours;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="photos", type="text")
-     */
-    private $photos;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="zipcode", type="string", length=4, nullable=true)
+     */
+    private $zipcode;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\Region")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $region;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\City")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $city;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="string", length=50, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="latitude", type="string", length=50, nullable=true)
+     */
+    private $latitude;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Doctoubib\ModelsBundle\Entity\DoctorInfo", inversedBy="offices")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $doctor;
+
+    public function __construct()
+    {
+        $this->paymentMeans = new ArrayCollection();
+        $this->elevator = false;
+        $this->handicapAccess = false;
+    }
 
     /**
      * Get id
@@ -189,27 +243,94 @@ class Office
     }
 
     /**
-     * Set adress
+     * Set adddress
      *
-     * @param string $adress
+     * @param string $address
      *
      * @return Office
      */
-    public function setAdress($adress)
+    public function setAddress($address)
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get adress
+     * Get address
      *
      * @return string
      */
-    public function getAdress()
+    public function getAddress()
     {
-        return $this->adress;
+        return $this->address;
+    }
+
+
+    /**
+     * Set zipcode
+     *
+     * @param string $zipcode
+     *
+     * @return Office
+     */
+    public function setZipcode($zipcode)
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    /**
+     * Get zipcode
+     *
+     * @return string
+     */
+    public function getZipcode()
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     *
+     * @return Office
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param mixed $region
+     * @return Office
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+        return $this;
     }
 
     /**
@@ -333,23 +454,31 @@ class Office
     }
 
     /**
-     * @return boolean
+     * @return ArrayCollection
      */
-    public function isPaymentMeans()
+    public function getPaymentMeans()
     {
         return $this->paymentMeans;
     }
 
     /**
-     * @param boolean $paymentMeans
-     * @return Office
+     * @param PaymentMean $paymentMean
+     * @return $this
      */
-    public function setPaymentMeans($paymentMeans)
+    public function addPaymentMean(PaymentMean $paymentMean)
     {
-        $this->paymentMeans = $paymentMeans;
+        $this->paymentMeans[] = $paymentMean;
         return $this;
     }
 
+    /**
+     * @param PaymentMean $paymentMean
+     */
+    public function removePaymentMean(PaymentMean $paymentMean)
+    {
+        $this->paymentMeans->removeElement($paymentMean);
+    }
+    
     /**
      * @return boolean
      */
@@ -367,24 +496,95 @@ class Office
         $this->openingHours = $openingHours;
         return $this;
     }
-
+    
     /**
-     * @return boolean
+     * @return mixed
      */
-    public function isPhotos()
+    public function getDoctor()
     {
-        return $this->photos;
+        return $this->doctor;
     }
 
     /**
-     * @param boolean $photos
+     * @param mixed $doctor
      * @return Office
      */
-    public function setPhotos($photos)
+    public function setDoctor($doctor)
     {
-        $this->photos = $photos;
+        $this->doctor = $doctor;
         return $this;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getPhoneSecond()
+    {
+        return $this->phoneSecond;
+    }
+
+    /**
+     * @param string $phoneSecond
+     * @return Office
+     */
+    public function setPhoneSecond($phoneSecond)
+    {
+        $this->phoneSecond = $phoneSecond;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFax()
+    {
+        return $this->fax;
+    }
+
+    /**
+     * @param string $fax
+     * @return Office
+     */
+    public function setFax($fax)
+    {
+        $this->fax = $fax;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param string $longitude
+     * @return Office
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param string $latitude
+     * @return Office
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+        return $this;
+    }
 }
 
