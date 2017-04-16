@@ -3,6 +3,9 @@
 namespace Doctoubib\ModelsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,16 +18,49 @@ class DoctorType extends AbstractType
     {
         $builder->add('firstname')
             ->add('lastname')
+            ->add('civility', ChoiceType::class, array(
+                'required' => true,
+                'expanded' => true,
+                'multiple' => false,
+                'choices' => array('Mr.' => 'mr', 'Mme.' => 'mme'),
+                'preferred_choices' => array('mr')
+            ))
             ->add('email')
+            ->add('insurance', CheckboxType::class, array(
+                'label'    => 'Conventionné avec CNAM',
+                'required' => false,
+            ))
             ->add('formation')
             ->add('description')
             ->add('adress')
             ->add('zipcode')
-            ->add('city')
             ->add('phoneNumber')
             ->add('officePhoneNumber')
-            ->add('speciality')
-            ->add('insurance')        ;
+            ->add('specialities')
+            ->add('region')
+            ->add('city')
+            ->add('languages')
+            ->add('formations', CollectionType::class, array(
+                'entry_type' => FormationType::class,
+                'allow_add'    => true,
+                'allow_delete' => true
+            ))
+            ->add('experiences', CollectionType::class, array(
+                'entry_type' => ExperienceType::class,
+                'allow_add'    => true,
+                'allow_delete' => true
+            ))
+            ->add('publications', CollectionType::class, array(
+                'entry_type' => PublicationType::class,
+                'allow_add'    => true,
+                'allow_delete' => true
+            ))
+            ->add('associations', CollectionType::class, array(
+                'entry_type' => AssociationType::class,
+                'allow_add'    => true,
+                'allow_delete' => true
+            ))
+        ;
     }
     
     /**
