@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Doctor
  *
- * @ORM\Table(name="doctor_info")
+ * @ORM\Table(name="doctor")
  * @ORM\Entity(repositoryClass="Doctoubib\ModelsBundle\Repository\DoctorRepository")
  */
 class Doctor
@@ -621,5 +621,31 @@ class Doctor
     public function getOffices()
     {
         return $this->offices;
+    }
+
+    public function getPrincipalOffice()
+    {
+        if (!empty($this->offices)) {
+            return $this->offices->first();
+        }
+
+        return null;
+    }
+
+    public function getPrincipalOfficeAddress()
+    {
+        $office = $this->getPrincipalOffice();
+        if ($office) {
+            $address = $office->getAddress();
+            if ($office->getRegion()) {
+                $address .= ', ' . $office->getRegion()->getName();
+            }
+
+            if ($office->getCity()) {
+                $address .= ', ' . $office->getCity()->getName();
+            }
+        }
+
+        return $address;
     }
 }
