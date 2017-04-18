@@ -19,15 +19,24 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
             $qb = $this->createQueryBuilder('d')
                 ->leftJoin('d.specialities', 's')
                 ->leftJoin('d.offices', 'o')
+                ->where('o.region', 'r')
                 ->where('s.slug = :speciality')
-                ->setParameter('speciality', $filters['speciality']);
-
-
+                ->andWhere('r.slug = :region')
+                ->andWhere('d.enabled = :enabled')
+                ->andWhere('d.isVisible = :visible')
+                ->setParameter('enabled', 1)
+                ->setParameter('visible', 1)
+                ->setParameter('speciality', $filters['speciality'])
+                ->setParameter('region', $filters['region']);
 
             return $qb->getQuery()->getResult();
         } elseif (!empty($filters['lastanme_first_letter'])) {
             $qb = $this->createQueryBuilder('d')
                 ->where('d.lastname LIKE :lastanme_first_letter')
+                ->where('d.enabled = :enabled')
+                ->where('d.isVisible = :visible')
+                ->setParameter('enabled', 1)
+                ->setParameter('visible', 1)
                 ->setParameter('lastanme_first_letter', $filters['lastanme_first_letter'].'%');
 
             return $qb->getQuery()->getResult();
