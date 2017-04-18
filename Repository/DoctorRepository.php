@@ -19,7 +19,7 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
             $qb = $this->createQueryBuilder('d')
                 ->leftJoin('d.specialities', 's')
                 ->leftJoin('d.offices', 'o')
-                ->where('o.region', 'r')
+                ->leftJoin('o.region', 'r')
                 ->where('s.slug = :speciality')
                 ->andWhere('r.slug = :region')
                 ->andWhere('d.enabled = :enabled')
