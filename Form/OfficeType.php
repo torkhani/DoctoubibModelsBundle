@@ -19,7 +19,9 @@ class OfficeType extends AbstractType
         $builder
             ->add('name')
             ->add('phone')
-            ->add('adress')
+            ->add('address')
+            ->add('region')
+            ->add('city')
             ->add('floor')
             ->add('intercom')
             ->add('digicode')

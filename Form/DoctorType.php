@@ -30,15 +30,10 @@ class DoctorType extends AbstractType
                 'label'    => 'Conventionné avec CNAM',
                 'required' => false,
             ))
-            ->add('formation')
             ->add('description')
-            ->add('adress')
-            ->add('zipcode')
             ->add('phoneNumber')
             ->add('officePhoneNumber')
             ->add('specialities')
-            ->add('region')
-            ->add('city')
             ->add('languages')
             ->add('formations', CollectionType::class, array(
                 'entry_type' => FormationType::class,
