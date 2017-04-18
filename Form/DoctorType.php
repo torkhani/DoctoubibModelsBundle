@@ -16,7 +16,8 @@ class DoctorType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstname')
+        $builder
+            ->add('firstname')
             ->add('lastname')
             ->add('civility', ChoiceType::class, array(
                 'required' => true,
@@ -32,7 +33,6 @@ class DoctorType extends AbstractType
             ))
             ->add('description')
             ->add('phoneNumber')
-            ->add('officePhoneNumber')
             ->add('specialities')
             ->add('languages')
             ->add('formations', CollectionType::class, array(
