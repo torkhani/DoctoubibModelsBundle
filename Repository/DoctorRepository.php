@@ -33,8 +33,8 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
         } elseif (!empty($filters['lastanme_first_letter'])) {
             $qb = $this->createQueryBuilder('d')
                 ->where('d.lastname LIKE :lastanme_first_letter')
-                ->where('d.enabled = :enabled')
-                ->where('d.isVisible = :visible')
+                ->andWhere('d.enabled = :enabled')
+                ->andWhere('d.isVisible = :visible')
                 ->setParameter('enabled', 1)
                 ->setParameter('visible', 1)
                 ->setParameter('lastanme_first_letter', $filters['lastanme_first_letter'].'%');
