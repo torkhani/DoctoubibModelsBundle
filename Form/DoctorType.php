@@ -24,7 +24,7 @@ class DoctorType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'choices' => array('Mr.' => 'mr', 'Mme.' => 'mme'),
-                'preferred_choices' => array('mr')
+                'data' => 'mr'
             ))
             ->add('email')
             ->add('insurance', CheckboxType::class, array(
@@ -35,7 +35,7 @@ class DoctorType extends AbstractType
             ->add('phoneNumber')
             ->add('specialities')
             ->add('languages')
-            ->add('formations', CollectionType::class, array(
+           /* ->add('formations', CollectionType::class, array(
                 'entry_type' => FormationType::class,
                 'allow_add'    => true,
                 'allow_delete' => true
@@ -54,7 +54,7 @@ class DoctorType extends AbstractType
                 'entry_type' => AssociationType::class,
                 'allow_add'    => true,
                 'allow_delete' => true
-            ))
+            ))*/
         ;
     }
     
