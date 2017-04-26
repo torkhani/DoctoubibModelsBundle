@@ -18,16 +18,20 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
         } elseif (!empty($filters['speciality'])) {
             $qb = $this->createQueryBuilder('d')
                 ->leftJoin('d.specialities', 's')
-                ->leftJoin('d.offices', 'o')
-                ->leftJoin('o.region', 'r')
                 ->where('s.slug = :speciality')
-                ->andWhere('r.slug = :region')
-                ->andWhere('d.enabled = :enabled')
+                if (!empty($filters['region'])) {
+                    $qb->leftJoin('d.offices', 'o')
+                       ->leftJoin('o.region', 'r')
+                       ->andWhere('r.slug = :region')
+                       ->setParameter('region', $filters['region']);
+                }
+
+              $qb->andWhere('d.enabled = :enabled')
                 ->andWhere('d.isVisible = :visible')
                 ->setParameter('enabled', 1)
                 ->setParameter('visible', 1)
-                ->setParameter('speciality', $filters['speciality'])
-                ->setParameter('region', $filters['region']);
+                ->setParameter('speciality', $filters['speciality']);
+
 
             return $qb->getQuery()->getResult();
         } elseif (!empty($filters['lastanme_first_letter'])) {
