@@ -18,7 +18,7 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
         } elseif (!empty($filters['speciality'])) {
             $qb = $this->createQueryBuilder('d')
                 ->leftJoin('d.specialities', 's')
-                ->where('s.slug = :speciality')
+                ->where('s.slug = :speciality');
                 if (!empty($filters['region'])) {
                     $qb->leftJoin('d.offices', 'o')
                        ->leftJoin('o.region', 'r')
