@@ -13,9 +13,7 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
 
     public function findByCriteria($filters)
     {
-        if (!empty($filters['slug'])) {
-           return $this->findOneBy(['slug' => $filters['slug']]);
-        } elseif (!empty($filters['speciality'])) {
+        if (!empty($filters['speciality'])) {
             $qb = $this->createQueryBuilder('d')
                 ->leftJoin('d.specialities', 's')
                 ->where('s.slug = :speciality');
@@ -34,18 +32,30 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
 
 
             return $qb->getQuery()->getResult();
-        } elseif (!empty($filters['lastanme_first_letter'])) {
-            $qb = $this->createQueryBuilder('d')
-                ->where('d.lastname LIKE :lastanme_first_letter')
-                ->andWhere('d.enabled = :enabled')
-                ->andWhere('d.isVisible = :visible')
-                ->setParameter('enabled', 1)
-                ->setParameter('visible', 1)
-                ->setParameter('lastanme_first_letter', $filters['lastanme_first_letter'].'%');
-
-            return $qb->getQuery()->getResult();
         } else {
             return $this->findAll();
         }
      }
+
+    /**
+     * @param $letter
+     *
+     * @return array
+     */
+    public function findByLetter($letter)
+    {
+        $qb = $this->createQueryBuilder('d')
+            ->where('d.lastname LIKE :lastanme_first_letter')
+            ->andWhere('d.enabled = :enabled')
+            ->andWhere('d.isVisible = :visible')
+            ->setParameter('enabled', 1)
+            ->setParameter('visible', 1)
+            ->setParameter('lastanme_first_letter', $letter.'%');
+
+        return $qb->getQuery()->getResult();
+    }
 }
+
+
+
+
