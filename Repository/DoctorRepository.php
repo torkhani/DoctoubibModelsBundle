@@ -13,28 +13,28 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
 
     public function findByCriteria($filters)
     {
-        if (!empty($filters['speciality'])) {
-            $qb = $this->createQueryBuilder('d')
-                ->leftJoin('d.specialities', 's')
-                ->where('s.slug = :speciality');
-                if (!empty($filters['region'])) {
-                    $qb->leftJoin('d.offices', 'o')
-                       ->leftJoin('o.region', 'r')
-                       ->andWhere('r.slug = :region')
-                       ->setParameter('region', $filters['region']);
-                }
+        $qb = $this->createQueryBuilder('d');
 
+        if (!empty($filters['region'])) {
+            $qb->leftJoin('d.specialities', 's')
+                ->where('s.slug = :speciality');
+            if (!empty($filters['region'])) {
+                $qb->leftJoin('d.offices', 'o')
+                    ->leftJoin('o.region', 'r')
+                    ->andWhere('r.slug = :region')
+                    ->setParameter('region', $filters['region']);
+            }
+        }
+        
+        if (!empty($filters['speciality'])) {
               $qb->andWhere('d.enabled = :enabled')
                 ->andWhere('d.isVisible = :visible')
                 ->setParameter('enabled', 1)
                 ->setParameter('visible', 1)
                 ->setParameter('speciality', $filters['speciality']);
-
-
-            return $qb->getQuery()->getResult();
-        } else {
-            return $this->findAll();
         }
+
+        return $qb->getQuery()->getResult();
      }
 
     /**
