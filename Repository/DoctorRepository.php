@@ -31,6 +31,14 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('region', $filters['region']);
         }
 
+        if (!empty($filters['city'])) {
+            $qb
+                ->leftJoin('d.offices', 'o')
+                ->leftJoin('o.city', 'c')
+                ->andWhere('c.slug = :city')
+                ->setParameter('city', $filters['city']);
+        }
+
         $qb
             ->andWhere('d.enabled = :enabled')
             ->andWhere('d.isVisible = :visible')
