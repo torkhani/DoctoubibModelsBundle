@@ -30,12 +30,12 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
                   ->setParameter('speciality', $filters['speciality']);
         }
 
-        /*$qb
+        $qb
             ->andWhere('d.enabled = :enabled')
             ->andWhere('d.isVisible = :visible')
             ->setParameter('enabled', 1)
             ->setParameter('visible', 1);
-            */
+
         return $qb->getQuery()->getResult();
      }
 
