@@ -16,23 +16,25 @@ class DoctorRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('d');
 
         if (!empty($filters['region'])) {
-            $qb->leftJoin('d.specialities', 's')
-                ->where('s.slug = :speciality');
-            if (!empty($filters['region'])) {
-                $qb->leftJoin('d.offices', 'o')
-                    ->leftJoin('o.region', 'r')
-                    ->andWhere('r.slug = :region')
-                    ->setParameter('region', $filters['region']);
-            }
+            $qb
+                ->leftJoin('d.offices', 'o')
+                ->leftJoin('o.region', 'r')
+                ->where('r.slug = :region')
+                ->setParameter('region', $filters['region']);
         }
-        
+
         if (!empty($filters['speciality'])) {
-              $qb->andWhere('d.enabled = :enabled')
-                ->andWhere('d.isVisible = :visible')
-                ->setParameter('enabled', 1)
-                ->setParameter('visible', 1)
-                ->setParameter('speciality', $filters['speciality']);
+              $qb
+                  ->leftJoin('d.specialities', 's')
+                  ->where('s.slug = :speciality')
+                  ->setParameter('speciality', $filters['speciality']);
         }
+
+        $qb
+            ->andWhere('d.enabled = :enabled')
+            ->andWhere('d.isVisible = :visible')
+            ->setParameter('enabled', 1)
+            ->setParameter('visible', 1);
 
         return $qb->getQuery()->getResult();
      }
