@@ -555,7 +555,6 @@ class Doctor
 
     public function addAssociation(Association $association)
     {
-
         $this->associations[] = $association;
         $association->setDoctor($this);
         return $this;
