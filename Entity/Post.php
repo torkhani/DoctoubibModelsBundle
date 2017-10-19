@@ -2,6 +2,7 @@
 
 namespace Doctoubib\ModelsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,6 +45,13 @@ class Post
 
     /**
      *
+     * @ORM\ManyToMany(targetEntity="PostCategory", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categories;
+
+    /**
+     *
      * @ORM\ManyToOne(targetEntity="Post")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -64,6 +72,14 @@ class Post
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * Post constructor.
+     */
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -213,6 +229,22 @@ class Post
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function addCategory(PostCategory $category)
+    {
+        $this->categories[] = $category;
+        return $this;
+    }
+
+    public function removeCategory(PostCategory $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    public function getCategories()
+    {
+        return $this->categories;
     }
 
     /**
