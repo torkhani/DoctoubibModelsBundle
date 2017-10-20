@@ -210,12 +210,17 @@ class PostCategory
         return $this->parent;
     }
 
-    /**
+        /**
      * @return string
      */
     public function __toString()
     {
-        return $this->getName();
+       if(empty($this->getName())) {
+         return '';
+       } else {
+         return $this->getName();
+       }
     }
+
 }
 

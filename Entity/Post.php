@@ -252,7 +252,11 @@ class Post
      */
     public function __toString()
     {
-        return $this->getTitle();
+       if(empty($this->getTitle())) {
+	 return '';
+       } else {
+      	 return $this->getTitle();
+       }
     }
 }
 
