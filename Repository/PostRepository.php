@@ -10,4 +10,18 @@ namespace Doctoubib\ModelsBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    function findByCategories($categories)
+    {
+
+        $qb    = $this->createQueryBuilder('p');
+        $query = $qb
+            ->select('p')
+            ->leftJoin('p.categories', 'c')
+            ->addSelect('c')
+            ->add('where', $qb->expr()->in('c', ':c'))
+            ->setParameter('c', $categories)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
