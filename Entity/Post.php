@@ -74,6 +74,12 @@ class Post
     private $updatedAt;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $image;
+
+    /**
      * Post constructor.
      */
     public function __construct()
@@ -248,15 +254,32 @@ class Post
     }
 
     /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     * @return Post
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-       if(empty($this->getTitle())) {
-	 return '';
-       } else {
-      	 return $this->getTitle();
-       }
+        if (empty($this->getTitle())) {
+            return '';
+        } else {
+            return $this->getTitle();
+        }
     }
 }
-
