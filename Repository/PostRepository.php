@@ -24,4 +24,20 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    function getSimilarPosts($category, $post)
+    {
+        $qb    = $this->createQueryBuilder('p');
+        $query = $qb
+            ->select('p')
+            ->leftJoin('p.categories', 'c')
+            ->addSelect('c')
+            ->add('where', $qb->expr()->in('c', ':c'))
+            ->andWhere($qb->expr()->notIn('p.id', ':p'))
+            ->setParameters(['c' => $category, 'p' => $post])
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
 }
