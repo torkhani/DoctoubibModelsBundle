@@ -63,6 +63,11 @@ class PostCategory
      */
     private $parent;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $image;
 
     /**
      * Get id
@@ -210,17 +215,33 @@ class PostCategory
         return $this->parent;
     }
 
-        /**
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     * @return Post
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-       if(empty($this->getName())) {
-         return '';
-       } else {
-         return $this->getName();
-       }
+        if (empty($this->getName())) {
+            return '';
+        } else {
+            return $this->getName();
+        }
     }
-
 }
-
